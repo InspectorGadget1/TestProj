@@ -36,9 +36,13 @@ namespace API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
+
+            //Connect to DB. Connection string location ./appsettings.Development.json
             services.AddDbContext<DataContext>(opt => {
                 opt.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
             });
+
+            // Add Mediatr service
             services.AddMediatR(typeof(List.Handler).Assembly);
         }
 

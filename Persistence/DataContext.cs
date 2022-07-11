@@ -17,6 +17,7 @@ namespace Persistence
         {
             base.OnModelCreating(modelBuilder);
 
+            // Unique fields
             modelBuilder.Entity<Contact>()
                 .HasIndex(c => c.Email)
                 .IsUnique();
@@ -25,9 +26,11 @@ namespace Persistence
                 .HasIndex(a => a.name)
                 .IsUnique();
 
+            // Primary key
             modelBuilder.Entity<Incident>()
                 .HasKey(i => i.Name);
 
+            // Relationships one to many
             modelBuilder.Entity<Contact>()
                 .HasOne<Account>(c => c.Account)
                 .WithMany(a => a.Contacts)

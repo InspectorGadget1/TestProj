@@ -27,6 +27,7 @@ namespace Application.Accounts
             }
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
+                // Create new account
                 var newAccountId = Guid.NewGuid();
                 var newAccount = new Account {
                     Id = newAccountId,
@@ -34,8 +35,9 @@ namespace Application.Accounts
                 };
                 _context.Accounts.Add(newAccount);
 
+                // If contact doesn't exist - create new, else - update
                 var contact = await _context.Contacts.FirstOrDefaultAsync(c => c.Email == request.AccountDto.Email);
-                if(contact.Id == Guid.Empty)
+                if(contact == null)
                 {
                     var newContact = new Contact
                     {
